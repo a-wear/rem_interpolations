@@ -1,0 +1,21 @@
+#ifndef CONFIG
+#define CONFIG
+
+#define CONFIG_GPIO_BUTTON_PIN 0
+#define CONFIG_GPIO_LED_PIN 33
+
+#define CONFIG_GPIO_LED_ON 0
+#define CONFIG_GPIO_LED_OFF 1
+
+#define CONFIG_WIFI_SSID "SSID"
+#define CONFIG_WIFI_PASSWORD "PASSWORD"
+
+#define CONFIG_SD_MOUNT_POINT "/sdcard"
+#define CONFIG_SD_1_LINE true
+
+#define CONFIG_SCAN_DELAY_MS 50
+#define SCANS_PER_CYCLE 100
+
+#define CONFIG_TIMES_FILENAME "PROBES_TIMES.csv"
+
+#endif
