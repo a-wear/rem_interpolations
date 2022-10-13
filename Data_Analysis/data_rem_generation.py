@@ -9,6 +9,9 @@ from common import create_radiomap, load_data_np_arrays, get_per_point_gaussian_
 from data_helper import RESULTS_LOCATION
 from data_helper import COMBINED_DATASET_LOCATION, COMBINED_INTERPOLATED_DATASET_LOCATION
 
+# Create Results directory if it does not exist
+os.makedirs(os.path.join(RESULTS_LOCATION, dir), exist_ok=True)
+
 # Get filenames for noninterpolated data
 filenames = os.listdir(COMBINED_DATASET_LOCATION)
 
