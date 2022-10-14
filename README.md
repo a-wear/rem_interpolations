@@ -25,11 +25,11 @@ The sender then on the press of button sends the set amount of probes and indica
 ## [Data Analysis](Data_Analysis)
 
 This section of the repository utilizes Python for scripting. The folder contains several scripts:
-- [data_combination.py](Data_Analysis/data_combination.py)
+- [data_pcap_to_csv.py](Data_Analysis/data_pcap_to_csv.py)
     - This script goes through the pcap files created by the Probe Request Sniffers into CSV files.
     - Except of just combining files, this script also approximates missing values of the radiomap and stores the approximated data in separate folder.
 - [data_rem_generation.py](Data_Analysis/data_rem_generation.py)
-    - This script loads the data files created by [data_combination.py](Data_Analysis/data_combination.py) and creates radio maps in SVG and EPS format
+    - This script loads the data files created by [data_pcap_to_csv.py](Data_Analysis/data_pcap_to_csv.py) and creates radio maps in SVG and EPS format
 - [data_knn.py](Data_Analysis/data_knn.py)
     - This script contains evaluation of Indoor Localisation through kNN, creation of mean and median error dependency on K and creation of histograms for selected K
 - [data_helper.py](Data_Analysis/data_helper.py)
