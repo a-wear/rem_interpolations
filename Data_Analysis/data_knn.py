@@ -251,6 +251,9 @@ for data_format in data_formats:
     distances[data_format] = list()
 
     for k in range(1, MAX_K):
+        if k > len(X_train[data_format]):
+            break
+
         print('Data format: {}, K: {}           '.format(data_format, k), end='\r')
         # Prepare kNN
         knn = KNeighborsRegressor(n_neighbors=k, algorithm=algorithm)
@@ -323,13 +326,13 @@ for idx, data_format in enumerate(data_formats):
         axes1[row, column].set_ylabel(HISTOGRAM_Y_LABEL)
 
 # Plot error and performance
-for error, time, style in zip(list(error_mean.values()), [row / np.mean(list(times.values()), axis=2)[0] for row in np.mean(list(times.values()), axis=2)], line_style):
-    axes2.plot(range(1, MAX_K), error,
+for error, time, style in zip(list(error_mean.values()), [np.mean(np.array(x), axis=1) for x in np.array(list(times.values()))], line_style):
+    axes2.plot(range(1, len(error) + 1), error,
                 color=line_style[style][0],
                 linestyle=line_style[style][1],
                 linewidth=line_style[style][2],
                 label=line_style[style][3])
-    axes3.plot(range(1, MAX_K), time,
+    axes3.plot(range(1, len(time) + 1), time,
                 color=line_style[style][0],
                 linestyle=line_style[style][1],
                 linewidth=line_style[style][2],
