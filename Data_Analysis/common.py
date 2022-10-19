@@ -19,12 +19,12 @@ plt.rcParams['svg.fonttype'] = 'none'
 plt.rcParams["font.family"] = "Times New Roman"
 
 
-def create_radiomap(x, y, z, p, width, height, point, xlim, ylim, xticks, yticks, results_dir, savename, ip=None):
+def create_radiomap(x, y, z, p, width, height, point, xlim, ylim, zlim, xticks, yticks, results_dir, savename, ip=None, cm='viridis'):
     '''Function to create countour radio map of 2D space'''
     fig, ax = plt.subplots(figsize=(width, height))
     fig.tight_layout()
     ax.set_aspect('equal', 'box')
-    surf = ax.contourf(x, y, z, cmap='viridis')
+    surf = ax.contourf(x, y, z, cmap=cm)
     scat1 = ax.scatter([point[1]], [point[2]], color='red', zorder=5)
     scat2 = ax.scatter(x, y, p, color='darkorange', marker='x', zorder=7)
     if ip is not None:
