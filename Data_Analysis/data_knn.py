@@ -23,7 +23,7 @@ plt.rcParams['svg.fonttype'] = 'none'
 plt.rcParams["font.family"] = "Times New Roman"
 
 # Create Results directory if it does not exist
-os.makedirs(os.path.join(RESULTS_LOCATION, dir), exist_ok=True)
+os.makedirs(RESULTS_LOCATION, exist_ok=True)
 
 rows = 2
 columns = 7
