@@ -9,6 +9,12 @@ from common import create_radiomap, load_data_np_arrays, get_per_point_gaussian_
 from data_helper import RESULTS_LOCATION
 from data_helper import COMBINED_DATASET_LOCATION, COMBINED_INTERPOLATED_DATASET_LOCATION
 
+# Colormap
+colormap = 'viridis'
+
+# Common zlim
+zlim = [-72, -45]
+
 # Create Results directory if it does not exist
 os.makedirs(RESULTS_LOCATION, exist_ok=True)
 
@@ -38,25 +44,25 @@ height = 3.375
 
 # Plot contours WITHOUT interpolation
 create_radiomap(X, Y, S1n_mean.T, Points.T, width, height, 
-                ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76],
+                ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S1_mean_map.eps')
+                RESULTS_LOCATION, 'S1_mean_map.eps', cm=colormap)
 create_radiomap(X, Y, S2n_mean.T, Points.T, width, height, 
-                ('S2', 13.75, 9.5), [0, 16.71], [0, 10.76],
+                ('S2', 13.75, 9.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S2_mean_map.eps')   
+                RESULTS_LOCATION, 'S2_mean_map.eps', cm=colormap)   
 create_radiomap(X, Y, S3n_mean.T, Points.T, width, height, 
-                ('S3', 9, 6.5), [0, 16.71], [0, 10.76],
+                ('S3', 9, 6.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S3_mean_map.eps')
+                RESULTS_LOCATION, 'S3_mean_map.eps', cm=colormap)
 create_radiomap(X, Y, S4n_mean.T, Points.T, width, height, 
-                ('S4', 3.75, 3.5), [0, 16.71], [0, 10.76],
+                ('S4', 3.75, 3.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S4_mean_map.eps')
+                RESULTS_LOCATION, 'S4_mean_map.eps', cm=colormap)
 create_radiomap(X, Y, S5n_mean.T, Points.T, width, height, 
-                ('S5', 13.75, 4.5), [0, 16.71], [0, 10.76],
+                ('S5', 13.75, 4.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S5_mean_map.eps')
+                RESULTS_LOCATION, 'S5_mean_map.eps', cm=colormap)
 
 # Get filenames for interpolated data
 filenames = os.listdir(COMBINED_INTERPOLATED_DATASET_LOCATION)
@@ -80,29 +86,29 @@ interpolated_points[np.isnan(S1in_mean)] = np.nan
 
 # Plot contours WITH interpolation
 create_radiomap(X, Y, S1in_mean.T, Points.T, width, height, 
-                ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76],
+                ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S1_mean_map_interpol.eps',
+                RESULTS_LOCATION, 'S1_mean_map_interpol.eps', colormap,
                 interpolated_points.T)
 create_radiomap(X, Y, S2in_mean.T, Points.T, width, height, 
-                ('S2', 13.75, 9.5), [0, 16.71], [0, 10.76],
+                ('S2', 13.75, 9.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S2_mean_map_interpol.eps',
+                RESULTS_LOCATION, 'S2_mean_map_interpol.eps', colormap,
                 interpolated_points.T)   
 create_radiomap(X, Y, S3in_mean.T, Points.T, width, height, 
-                ('S3', 9, 6.5), [0, 16.71], [0, 10.76],
+                ('S3', 9, 6.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S3_mean_map_interpol.eps',
+                RESULTS_LOCATION, 'S3_mean_map_interpol.eps', colormap,
                 interpolated_points.T)
 create_radiomap(X, Y, S4in_mean.T, Points.T, width, height, 
-                ('S4', 3.75, 3.5), [0, 16.71], [0, 10.76],
+                ('S4', 3.75, 3.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S4_mean_map_interpol.eps',
+                RESULTS_LOCATION, 'S4_mean_map_interpol.eps', colormap,
                 interpolated_points.T)
 create_radiomap(X, Y, S5in_mean.T, Points.T, width, height, 
-                ('S5', 13.75, 4.5), [0, 16.71], [0, 10.76],
+                ('S5', 13.75, 4.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S5_mean_map_interpol.eps',
+                RESULTS_LOCATION, 'S5_mean_map_interpol.eps', colormap,
                 interpolated_points.T)
 
 # Create 0.5m meshgrid
@@ -123,10 +129,11 @@ Points_G[Points_G < 0] = 20
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-surf = ax.plot_surface(X0_5, Y0_5, np.mean(S1g, axis=0), cmap='viridis', zorder=4)
+surf = ax.plot_surface(X0_5, Y0_5, np.mean(S1g, axis=0), cmap=colormap, zorder=4)
 
 ax.set_xlabel('Distance X [m]')
 ax.set_ylabel('Distance Y [m]')
+ax.set_zlim(zlim)
 ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
@@ -149,9 +156,10 @@ S1g_05, S2g_05, S3g_05, S4g_05, S5g_05 = data_05
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-ax.plot_surface(X0_5, Y0_5, np.mean(S1g_05, axis=0), cmap='viridis')
+ax.plot_surface(X0_5, Y0_5, np.mean(S1g_05, axis=0), cmap=colormap)
 ax.set_xlabel('Distance X [m]')
 ax.set_ylabel('Distance Y [m]')
+ax.set_zlim(zlim)
 ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
@@ -167,9 +175,9 @@ data_1 = get_per_point_gaussian_regression_data(base_data_location=COMBINED_INTE
 S1g_1, S2g_1, S3g_1, S4g_1, S5g_1 = data_1
 
 create_radiomap(X1, Y1, np.mean(S1g_1, axis=0), None, width, height, 
-                ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76],
+                ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S1_gauss_interpol_contour.eps',
+                RESULTS_LOCATION, 'S1_gauss_interpol_contour.eps', colormap,
                 None)
 
 fig = plt.figure()
@@ -182,7 +190,7 @@ data_1m = get_per_point_gaussian_regression_data(base_data_location=COMBINED_DAT
 
 S1g_1m, S2g_1m, S3g_1m, S4g_1m, S5g_1m = data_1m
 
-ax.plot_surface(X1, Y1, np.mean(S1g_1m, axis=0), cmap='viridis')
+ax.plot_surface(X1, Y1, np.mean(S1g_1m, axis=0), cmap=colormap)
 
 X_train, _, y_train, y_test = load_data(COMBINED_INTERPOLATED_DATASET_LOCATION)
 
@@ -208,9 +216,10 @@ gaus2m = get_per_point_gaussian_regression_data(X_train=measured_2m[['RSSI_1',
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-ax.plot_surface(X0_5, Y0_5, np.mean(gaus2m[0], axis=0), cmap='viridis')
+ax.plot_surface(X0_5, Y0_5, np.mean(gaus2m[0], axis=0), cmap=colormap)
 ax.set_xlabel('Distance X [m]')
 ax.set_ylabel('Distance Y [m]')
+ax.set_zlim(zlim)
 ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
