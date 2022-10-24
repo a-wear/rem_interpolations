@@ -14,6 +14,7 @@ colormap = 'viridis'
 
 # Common zlim
 zlim = [-72, -48]
+zticks = np.arange(zlim[0], zlim[1] + 1, 3)
 
 # Create Results directory if it does not exist
 os.makedirs(RESULTS_LOCATION, exist_ok=True)
@@ -134,9 +135,11 @@ surf1 = ax.plot_surface(X0_5, Y0_5, np.mean(S1g, axis=0), cmap=colormap, zorder=
 ax.set_xlabel('Distance X [m]')
 ax.set_ylabel('Distance Y [m]')
 ax.set_zlim(zlim)
+ax.set_zticks(zticks)
 ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf1, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
+cbar.ax.set_yticks(zticks)
 ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-52, -48], 'red', zorder=5, label='S1')
 ax.text(3.75, 8.5, -48, 'S1', color='red', weight='bold')
 fig.savefig(os.path.join(RESULTS_LOCATION, 'S1_gauss.eps'))
@@ -160,9 +163,11 @@ surf2 = ax.plot_surface(X0_5, Y0_5, np.mean(S1g_05, axis=0), cmap=colormap, vmin
 ax.set_xlabel('Distance X [m]')
 ax.set_ylabel('Distance Y [m]')
 ax.set_zlim(zlim)
+ax.set_zticks(zticks)
 ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf2, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
+cbar.ax.set_yticks(zticks)
 ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-50, -48], 'red', zorder=5, label='S1')
 ax.text(3.75, 8.5, -48, 'S1', color='red', weight='bold')
 fig.savefig(os.path.join(RESULTS_LOCATION, 'S1_gauss_interpolated.eps'))
@@ -178,7 +183,7 @@ create_radiomap(X0_5, Y0_5, np.mean(S1g_05, axis=0), None, width, height,
                 ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76], zlim,
                 np.arange(0, 17, 1), np.arange(0, 11, 1),
                 RESULTS_LOCATION, 'S1_gauss_interpol_contour.eps',
-                None, colormap)
+                None, colormap, contour=False)
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
@@ -220,9 +225,11 @@ surf4 = ax.plot_surface(X0_5, Y0_5, np.mean(gaus2m[0], axis=0), cmap=colormap, v
 ax.set_xlabel('Distance X [m]')
 ax.set_ylabel('Distance Y [m]')
 ax.set_zlim(zlim)
+ax.set_zticks(zticks)
 ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf4, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
+cbar.ax.set_yticks(zticks)
 ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-52, -48], 'red', zorder=5, label='S1')
 ax.text(3.75, 8.5, -48, 'S1', color='red', weight='bold')
 fig.savefig(os.path.join(RESULTS_LOCATION, 'S1_gauss_interpolated_2m.eps'))
