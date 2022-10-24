@@ -343,7 +343,7 @@ for error, time, style in zip(list(error_mean.values()), [np.mean(np.array(x), a
                   label=line_style[style][3],
                   marker=line_style[style][4],
                   alpha=0.33,
-                  linewidth=0)    
+                  edgecolor='none')    
 
 # Set plot 2 parameters
 axes2.set_xlim([0, MAX_K])
