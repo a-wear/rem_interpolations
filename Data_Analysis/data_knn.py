@@ -36,6 +36,7 @@ fig1, axes1 = plt.subplots(rows, columns, figsize=(columns * 3, rows * 3), const
 fig2, axes2 = plt.subplots(1, figsize=(8, 5), constrained_layout=True)
 fig3, axes3 = plt.subplots(1, figsize=(8, 5), constrained_layout=True)
 fig4, axes4 = plt.subplots(1, figsize=(8, 5), constrained_layout=True)
+fig5, axes5 = plt.subplots(1, figsize=(8, 5), constrained_layout=True)
 
 # fig1.suptitle('Histograms of predicted distances by kNN')
 # fig2.suptitle('Error Rate K Value')
@@ -242,6 +243,11 @@ eval_y = df[['X', 'Y']]
 X_test = pd.concat([X_test, eval_x])
 y_test = pd.concat([y_test, eval_y])
 
+k_list = dict()
+
+for data_format in data_formats:
+    k_list[data_format] = int(np.round(np.sqrt(len(X_train[data_format]))))
+
 #
 # Run kNNs in all configurations
 #
@@ -273,20 +279,20 @@ for data_format in data_formats:
 #
 # Chart titles
 #             
-hist_titles = {'measured': 'Measured data\n(50P/RP, 1m grid, k = {})'.format(K),
-               'interpolated': 'Interpolated data\n(50P/RP, 1m grid, k = {})'.format(K),
-               'gaus_50p_1m': 'GPR - Measured data\n(50P/RP, 1m grid, k = {})'.format(K),
-               'gaus_50p_05m': 'GPR - Measured data\n(50P/RP, 0.5m grid, k = {})'.format(K),
-               'lin&gaus_50p_1m': 'GPR - Linearly Interpolated data\n(50P/RP, 1m grid, k = {})'.format(K),
-               'lin&gaus_50p_05m': 'GPR - Linearly Interpolated data\n(50P/RP, 0.5m grid, k = {})'.format(K),
-               'lin&gausSel_50p_1m': 'GPR - Selection of Linearly Interpolated data\n(50P/RP, 1m grid, k = {})'.format(K),
-               'lin&gausSel_50p_05m': 'GPR - Selection of Linearly Interpolated data\n(50P/RP, 0.5m grid, k = {})'.format(K),
-               'gaus_1p_1m': 'GPR - Measured data\n(1P/RP, 1m grid, k = {})'.format(K),
-               'gaus_1p_05m': 'GPR - Measured data\n(1P/RP, 0.5m grid, k = {})'.format(K),
-               'lin&gaus_1p_1m': 'GPR - Linearly Interpolated data\n(1P/RP, 1m grid, k = {})'.format(K),
-               'lin&gaus_1p_05m': 'GPR - Linearly Interpolated data\n(1P/RP, 0.5m grid, k = {})'.format(K),
-               'lin&gausSel_1p_1m': 'GPR - Selection of Linearly Interpolated data\n(1P/RP, 1m grid, k = {})'.format(K),
-               'lin&gausSel_1p_05m': 'GPR - Selection of Linearly Interpolated data\n(1P/RP, 0.5m grid, k = {})'.format(K)
+hist_titles = {'measured': 'Measured data\n(50P/RP, 1m grid)',
+               'interpolated': 'Interpolated data\n(50P/RP, 1m grid)',
+               'gaus_50p_1m': 'GPR - Measured data\n(50P/RP, 1m grid)',
+               'gaus_50p_05m': 'GPR - Measured data\n(50P/RP, 0.5m grid)',
+               'lin&gaus_50p_1m': 'GPR - Linearly Interpolated data\n(50P/RP, 1m grid)',
+               'lin&gaus_50p_05m': 'GPR - Linearly Interpolated data\n(50P/RP, 0.5m grid)',
+               'lin&gausSel_50p_1m': 'GPR - Selection of Linearly Interpolated data\n(50P/RP, 1m grid)',
+               'lin&gausSel_50p_05m': 'GPR - Selection of Linearly Interpolated data\n(50P/RP, 0.5m grid)',
+               'gaus_1p_1m': 'GPR - Measured data\n(1P/RP, 1m grid)',
+               'gaus_1p_05m': 'GPR - Measured data\n(1P/RP, 0.5m grid)',
+               'lin&gaus_1p_1m': 'GPR - Linearly Interpolated data\n(1P/RP, 1m grid)',
+               'lin&gaus_1p_05m': 'GPR - Linearly Interpolated data\n(1P/RP, 0.5m grid)',
+               'lin&gausSel_1p_1m': 'GPR - Selection of Linearly Interpolated data\n(1P/RP, 1m grid)',
+               'lin&gausSel_1p_05m': 'GPR - Selection of Linearly Interpolated data\n(1P/RP, 0.5m grid)'
                }
 
 #
@@ -316,14 +322,30 @@ for idx, data_format in enumerate(data_formats):
     column = int(idx % columns)
 
     # Set titles, limits etc for the plots
-    axes1[row, column].set_title(hist_titles[data_format])
-    axes1[row, column].hist(distances[data_format][K-1], HISTOGRAM_BINS, density=True)
+    axes1[row, column].set_title(hist_titles[data_format] + ' K={}'.format(k_list[data_format]))
+    axes1[row, column].hist(distances[data_format][k_list[data_format]], HISTOGRAM_BINS, density=True)
+
+    sorted_data = np.sort(distances[data_format][k_list[data_format]])
+    cdf = 1. * np.arange(len(sorted_data)) / (len(sorted_data) - 1)
+
+    axes5.plot(sorted_data, cdf,
+               color=line_style[data_format][0],
+               linestyle=line_style[data_format][1],
+               linewidth=line_style[data_format][2],
+               label=line_style[data_format][3])
 
     axes1[row, column].grid()
     if row == rows - 1:
         axes1[row, column].set_xlabel(HISTOGRAM_X_LABEL)
     if column == 0:
         axes1[row, column].set_ylabel(HISTOGRAM_Y_LABEL)
+
+axes5.legend()
+axes5.set_xlim([0, np.max([np.max(distances[x]) for x in distances])])
+axes5.set_ylim([0, 1])
+axes5.grid()
+axes5.set_xlabel(HISTOGRAM_X_LABEL)
+axes5.set_ylabel('Probability [-]')
 
 # Plot error and performance
 for error, time, style in zip(list(error_mean.values()), [np.mean(np.array(x), axis=1) for x in np.array(list(times.values()))], line_style):
@@ -370,10 +392,12 @@ axes4.grid()
 # Set size of text in plots 2, 3 and 4
 for item in ([axes2.xaxis.label, axes2.yaxis.label,
               axes3.xaxis.label, axes3.yaxis.label,
-              axes4.xaxis.label, axes4.yaxis.label] +
+              axes4.xaxis.label, axes4.yaxis.label,
+              axes5.xaxis.label, axes5.yaxis.label] +
              axes2.get_xticklabels() + axes2.get_yticklabels() +
              axes3.get_xticklabels() + axes3.get_yticklabels() +
-             axes4.get_xticklabels() + axes4.get_yticklabels()):
+             axes4.get_xticklabels() + axes4.get_yticklabels() +
+             axes5.get_xticklabels() + axes5.get_yticklabels()):
     item.set_fontsize(14)
 
 plt.show()
@@ -382,7 +406,9 @@ fig1.savefig(os.path.join(RESULTS_LOCATION, 'kNN_histograms.svg'))
 fig2.savefig(os.path.join(RESULTS_LOCATION, 'kNN_Error_dependency_on_K.svg'))
 fig3.savefig(os.path.join(RESULTS_LOCATION, 'kNN_times.svg'))
 fig4.savefig(os.path.join(RESULTS_LOCATION, 'kNN_error_on_time.svg'))
+fig5.savefig(os.path.join(RESULTS_LOCATION, 'kNN_cdf.svg'))
 fig1.savefig(os.path.join(RESULTS_LOCATION, 'kNN_histograms.eps'))
 fig2.savefig(os.path.join(RESULTS_LOCATION, 'kNN_Error_dependency_on_K.eps'))
 fig3.savefig(os.path.join(RESULTS_LOCATION, 'kNN_times.eps'))
 fig4.savefig(os.path.join(RESULTS_LOCATION, 'kNN_error_on_time.eps'))
+fig5.savefig(os.path.join(RESULTS_LOCATION, 'kNN_cdf.eps'))
