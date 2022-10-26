@@ -19,40 +19,41 @@ plt.rcParams['svg.fonttype'] = 'none'
 plt.rcParams["font.family"] = "Times New Roman"
 
 
-def create_radiomap(x, y, z, p, width, height, point, xlim, ylim, zlim, xticks, yticks, results_dir, savename, ip=None, cm='viridis', contour=True):
+def create_radiomap(x, y, z, p, width, height, point, xlim, ylim, zlim, xticks, yticks, zticks, results_dir, savename, ip=None, cm='viridis', scolor='black', x_color='darkorange', x_ip_color='darkred', contour=False, grid=True):
     '''Function to create countour radio map of 2D space'''
     if contour:
         fig, ax = plt.subplots(figsize=(width, height))
         fig.tight_layout()
         ax.set_aspect('equal', 'box')
         surf = ax.contourf(x, y, z, cmap=cm, vmin=zlim[0], vmax=zlim[1])
-        scat1 = ax.scatter([point[1]], [point[2]], color='red', zorder=5)
+        scat1 = ax.scatter([point[1]], [point[2]], color=scolor, zorder=5)
         if p is not None:
-            scat2 = ax.scatter(x, y, p, color='darkorange', marker='x', zorder=7)
+            scat2 = ax.scatter(x, y, p, color=x_color, marker='x', zorder=7)
         if ip is not None:
-            scat3 = ax.scatter(x, y, ip, color='darkred', marker='x', zorder=7)
+            scat3 = ax.scatter(x, y, ip, color=x_ip_color, marker='x', zorder=7)
     else:
         fig, ax = plt.subplots(figsize=(width, height))
         fig.tight_layout()
         ax.set_aspect('equal', 'box')
         surf = ax.pcolormesh(x, y, z, cmap=cm, vmin=zlim[0], vmax=zlim[1])
-        scat1 = ax.scatter([point[1]], [point[2]], color='red', zorder=5)
+        scat1 = ax.scatter([point[1]], [point[2]], color=scolor, zorder=5)
         if p is not None:
-            scat2 = ax.scatter(x, y, p, color='darkorange', marker='x', zorder=7)
+            scat2 = ax.scatter(x, y, p, color=x_color, marker='x', zorder=7)
         if ip is not None:
-            scat3 = ax.scatter(x, y, ip, color='darkred', marker='x', zorder=7)
+            scat3 = ax.scatter(x, y, ip, color=x_ip_color, marker='x', zorder=7)
 
-    ax.annotate(point[0], (point[1]+0.15, point[2]), zorder=6)
+    ax.annotate(point[0], (point[1]+0.15, point[2]), color=scolor, zorder=6)
     ax.set_xlabel('Distance X [m]')
     ax.set_ylabel('Distance Y [m]')
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
     ax.set_xticks(xticks)
     ax.set_yticks(yticks)
-    ax.grid(True)
+    ax.grid(grid)
     cbar = fig.colorbar(surf)
     cbar.ax.set_ylabel('RSSI [dBm]')
     cbar.ax.set_ylim(zlim[0], zlim[1])
+    cbar.ax.set_yticks(zticks)
     fig.savefig(os.path.join(results_dir, savename))
 
 
