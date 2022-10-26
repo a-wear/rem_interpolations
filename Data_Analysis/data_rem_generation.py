@@ -10,7 +10,12 @@ from data_helper import RESULTS_LOCATION
 from data_helper import COMBINED_DATASET_LOCATION, COMBINED_INTERPOLATED_DATASET_LOCATION
 
 # Colormap
-colormap = 'viridis'
+colormap = 'jet'
+scolor = 'black'
+xcolor = 'black'
+xipcolor = 'gray'
+annotation_color = 'black'
+grid = False
 
 # Common zlim
 zlim = [-72, -48]
@@ -44,26 +49,36 @@ width = 6
 height = 3.375
 
 # Plot contours WITHOUT interpolation
-create_radiomap(X, Y, S1n_mean.T, Points.T, width, height, 
+create_radiomap(X, Y, S1n_mean.T, None, width, height, 
                 ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S1_mean_map.eps', cm=colormap)
-create_radiomap(X, Y, S2n_mean.T, Points.T, width, height, 
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
+                RESULTS_LOCATION, 'S1_mean_map.eps', cm=colormap,
+                scolor=scolor, x_color=xcolor, x_ip_color=xipcolor,
+                grid=grid)
+create_radiomap(X, Y, S2n_mean.T, None, width, height, 
                 ('S2', 13.75, 9.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S2_mean_map.eps', cm=colormap)   
-create_radiomap(X, Y, S3n_mean.T, Points.T, width, height, 
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
+                RESULTS_LOCATION, 'S2_mean_map.eps', cm=colormap,
+                scolor=scolor, x_color=xcolor, x_ip_color=xipcolor,
+                grid=grid)   
+create_radiomap(X, Y, S3n_mean.T, None, width, height, 
                 ('S3', 9, 6.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S3_mean_map.eps', cm=colormap)
-create_radiomap(X, Y, S4n_mean.T, Points.T, width, height, 
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
+                RESULTS_LOCATION, 'S3_mean_map.eps', cm=colormap,
+                scolor=scolor, x_color=xcolor, x_ip_color=xipcolor,
+                grid=grid)
+create_radiomap(X, Y, S4n_mean.T, None, width, height, 
                 ('S4', 3.75, 3.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S4_mean_map.eps', cm=colormap)
-create_radiomap(X, Y, S5n_mean.T, Points.T, width, height, 
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
+                RESULTS_LOCATION, 'S4_mean_map.eps', cm=colormap,
+                scolor=scolor, x_color=xcolor, x_ip_color=xipcolor,
+                grid=grid)
+create_radiomap(X, Y, S5n_mean.T, None, width, height, 
                 ('S5', 13.75, 4.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
-                RESULTS_LOCATION, 'S5_mean_map.eps', cm=colormap)
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
+                RESULTS_LOCATION, 'S5_mean_map.eps', cm=colormap,
+                scolor=scolor, x_color=xcolor, x_ip_color=xipcolor,
+                grid=grid)
 
 # Get filenames for interpolated data
 filenames = os.listdir(COMBINED_INTERPOLATED_DATASET_LOCATION)
@@ -86,31 +101,36 @@ interpolated_points[interpolated_points == 0] = 20
 interpolated_points[np.isnan(S1in_mean)] = np.nan
 
 # Plot contours WITH interpolation
-create_radiomap(X, Y, S1in_mean.T, Points.T, width, height, 
+create_radiomap(X, Y, S1in_mean.T, None, width, height, 
                 ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
                 RESULTS_LOCATION, 'S1_mean_map_interpol.eps',
-                interpolated_points.T, colormap)
-create_radiomap(X, Y, S2in_mean.T, Points.T, width, height, 
+                None, colormap, scolor=scolor, x_color=xcolor,
+                x_ip_color=xipcolor, grid=grid)
+create_radiomap(X, Y, S2in_mean.T, None, width, height, 
                 ('S2', 13.75, 9.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
                 RESULTS_LOCATION, 'S2_mean_map_interpol.eps',
-                interpolated_points.T, colormap)   
-create_radiomap(X, Y, S3in_mean.T, Points.T, width, height, 
+                None, colormap, scolor=scolor, x_color=xcolor,
+                x_ip_color=xipcolor, grid=grid)   
+create_radiomap(X, Y, S3in_mean.T, None, width, height, 
                 ('S3', 9, 6.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
                 RESULTS_LOCATION, 'S3_mean_map_interpol.eps',
-                interpolated_points.T, colormap)
-create_radiomap(X, Y, S4in_mean.T, Points.T, width, height, 
+                None, colormap, scolor=scolor, x_color=xcolor,
+                x_ip_color=xipcolor, grid=grid)
+create_radiomap(X, Y, S4in_mean.T, None, width, height, 
                 ('S4', 3.75, 3.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
                 RESULTS_LOCATION, 'S4_mean_map_interpol.eps',
-                interpolated_points.T, colormap)
-create_radiomap(X, Y, S5in_mean.T, Points.T, width, height, 
+                None, colormap, scolor=scolor, x_color=xcolor,
+                x_ip_color=xipcolor, grid=grid)
+create_radiomap(X, Y, S5in_mean.T, None, width, height, 
                 ('S5', 13.75, 4.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
                 RESULTS_LOCATION, 'S5_mean_map_interpol.eps',
-                interpolated_points.T, colormap)
+                None, colormap, scolor=scolor, x_color=xcolor,
+                x_ip_color=xipcolor, grid=grid)
 
 # Create 0.5m meshgrid
 grid_step = 0.5
@@ -140,8 +160,8 @@ ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf1, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
 cbar.ax.set_yticks(zticks)
-ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-52, -48], 'red', zorder=5, label='S1')
-ax.text(3.75, 8.5, -48, 'S1', color='red', weight='bold')
+ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-52, -48], annotation_color, zorder=5, label='S1')
+ax.text(3.75, 8.5, -48, 'S1', color=annotation_color, weight='bold')
 fig.savefig(os.path.join(RESULTS_LOCATION, 'S1_gauss.eps'))
 
 # Create 1m meshgrid
@@ -168,8 +188,8 @@ ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf2, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
 cbar.ax.set_yticks(zticks)
-ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-50, -48], 'red', zorder=5, label='S1')
-ax.text(3.75, 8.5, -48, 'S1', color='red', weight='bold')
+ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-50, -48], annotation_color, zorder=5, label='S1')
+ax.text(3.75, 8.5, -48, 'S1', color=annotation_color, weight='bold')
 fig.savefig(os.path.join(RESULTS_LOCATION, 'S1_gauss_interpolated.eps'))
 
 data_1 = get_per_point_gaussian_regression_data(base_data_location=COMBINED_INTERPOLATED_DATASET_LOCATION,
@@ -181,9 +201,10 @@ S1g_1, S2g_1, S3g_1, S4g_1, S5g_1 = data_1
 
 create_radiomap(X0_5, Y0_5, np.mean(S1g_05, axis=0), None, width, height, 
                 ('S1', 3.75, 8.5), [0, 16.71], [0, 10.76], zlim,
-                np.arange(0, 17, 1), np.arange(0, 11, 1),
+                np.arange(0, 17, 1), np.arange(0, 11, 1), zticks,
                 RESULTS_LOCATION, 'S1_gauss_interpol_contour.eps',
-                None, colormap, contour=False)
+                None, colormap, contour=False, scolor=scolor, x_color=xcolor,
+                x_ip_color=xipcolor, grid=grid)
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
@@ -230,7 +251,7 @@ ax.set_zlabel('RSSI [dBm]')
 cbar = fig.colorbar(surf4, pad=0.15, shrink=0.6)
 cbar.ax.set_ylabel('RSSI [dBm]')
 cbar.ax.set_yticks(zticks)
-ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-52, -48], 'red', zorder=5, label='S1')
-ax.text(3.75, 8.5, -48, 'S1', color='red', weight='bold')
+ax.plot3D([3.75, 3.75], [8.5 , 8.5], [-52, -48], annotation_color, zorder=5, label='S1')
+ax.text(3.75, 8.5, -48, 'S1', color=annotation_color, weight='bold')
 fig.savefig(os.path.join(RESULTS_LOCATION, 'S1_gauss_interpolated_2m.eps'))
 plt.show()
