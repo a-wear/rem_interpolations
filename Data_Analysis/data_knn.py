@@ -1,10 +1,9 @@
 from collections import defaultdict
 import os
 
-import matplotlib
 import matplotlib.pyplot as plt
-import matplotlib.cm as mplcm
-import matplotlib.colors as colors
+from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
+from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsRegressor
@@ -317,6 +316,12 @@ line_style = {'measured': ('#1f77b4', 'solid', 2, 'Mesured REM (50P/RP, 1m grid)
               'lin&gausSel_1p_05m': ('#7f7f7f', 'dashed', 1, 'REM by GPR trained on Selection of LID (1P/RP, 0.5m grid)', marker_05m)}
 
 # plot histograms
+inset_axes5 = zoomed_inset_axes(axes5,
+                                2.1, # zoom = 0.5 ''
+                                loc='lower left',
+                                bbox_to_anchor=(.135, .035),
+                                bbox_transform=axes5.transAxes)
+
 for idx, data_format in enumerate(data_formats):
     row = int(idx / columns)
     column = int(idx % columns)
@@ -333,19 +338,30 @@ for idx, data_format in enumerate(data_formats):
                linestyle=line_style[data_format][1],
                linewidth=line_style[data_format][2],
                label=line_style[data_format][3])
-
+    inset_axes5.plot(sorted_data, cdf,
+               color=line_style[data_format][0],
+               linestyle=line_style[data_format][1],
+               linewidth=line_style[data_format][2],
+               label=line_style[data_format][3])
+               
     axes1[row, column].grid()
     if row == rows - 1:
         axes1[row, column].set_xlabel(HISTOGRAM_X_LABEL)
     if column == 0:
         axes1[row, column].set_ylabel(HISTOGRAM_Y_LABEL)
 
-axes5.legend()
+axes5.legend(bbox_to_anchor=(1, 0.99), loc='upper right')
 axes5.set_xlim([0, np.max([np.max(distances[x]) for x in distances])])
 axes5.set_ylim([0, 1])
 axes5.grid()
 axes5.set_xlabel(HISTOGRAM_X_LABEL)
 axes5.set_ylabel('Probability [-]')
+
+inset_axes5.set_ylim([0.85, 0.95])
+inset_axes5.set_xlim([3.4, 5.8])
+inset_axes5.grid()
+
+mark_inset(axes5, inset_axes5, loc1=1, loc2=2, fc="none", ec="0.5")
 
 # Plot error and performance
 for error, time, style in zip(list(error_mean.values()), [np.mean(np.array(x), axis=1) for x in np.array(list(times.values()))], line_style):
