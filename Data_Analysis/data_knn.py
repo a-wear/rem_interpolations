@@ -415,7 +415,7 @@ for error, time, style in zip(list(error_mean.values()), [np.mean(np.array(x), a
                   edgecolor='none')    
 
 # Set plot 2 parameters
-axes2.set_xlim([0, MAX_K])
+axes2.set_xlim([0, MAX_K - 1])
 axes2.set_xticks(np.arange(0, 251, 25))
 axes2.set_ylim(bottom=2.2)
 axes2.set_xlabel(PLOT_K_LABEL)
@@ -430,7 +430,7 @@ inset_axes2.grid()
 mark_inset(axes2, inset_axes2, loc1=2, loc2=4, fc="none", ec="0.5")
 
 # Set plot 3 parameters
-axes3.set_xlim([0, MAX_K])
+axes3.set_xlim([0, MAX_K - 1])
 axes3.set_xlabel(PLOT_K_LABEL)
 axes3.set_ylabel(PLOT_EXECUTION_TIME_LABEL_N)
 axes3.grid()
