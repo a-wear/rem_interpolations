@@ -439,7 +439,6 @@ axes3.legend(bbox_to_anchor=(1, 0.88), loc='upper right')
 # Set plot 4 parameters
 axes4.set_ylabel(PLOT_MEAN_ERROR_LABEL_M)
 axes4.set_xlabel(PLOT_EXECUTION_TIME_LABEL_N)
-axes4.set_ylim([2.2, 3.4])
 axes4.legend(ncol=1, bbox_to_anchor=(0.3, 1), loc='upper left')
 axes4.grid()
 
