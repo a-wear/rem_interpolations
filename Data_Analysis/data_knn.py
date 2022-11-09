@@ -68,6 +68,7 @@ algorithm = 'brute' #, 'ball_tree', 'kd_tree')
 error_mean = defaultdict(None)
 times = defaultdict(None)
 distances = defaultdict(None)
+predictions = defaultdict(None)
 
 #
 # Data loading
@@ -254,6 +255,7 @@ for data_format in data_formats:
     error_mean[data_format] = list()
     times[data_format] = list()
     distances[data_format] = list()
+    predictions[data_format] = list()
 
     for k in range(1, MAX_K):
         if k > len(X_train[data_format]):
@@ -274,6 +276,7 @@ for data_format in data_formats:
         error_mean[data_format].append(np.mean(dists))
         times[data_format].append(np.array(time))
         distances[data_format].append(dists)
+        predictions[data_format].append(pred)
 
 #
 # Chart titles
