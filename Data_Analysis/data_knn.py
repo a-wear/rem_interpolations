@@ -456,6 +456,52 @@ for item in ([axes2.xaxis.label, axes2.yaxis.label,
 
 plt.show()
 
+# Generate error heatmaps
+X, Y = np.meshgrid(np.arange(0.85, 16, 1), np.arange(0.1, 11, 1))
+
+error_maps = defaultdict(None)
+
+for data_format in data_formats:
+    error_maps[data_format] = np.zeros_like(X)
+    error_maps[data_format][:] = np.nan
+    
+    temp_test = y_test.copy(deep=True)
+    temp_test.insert(2, data_format, distances[data_format][k_list[data_format]])
+
+    for x in range(0, X.shape[1]):
+        for y in range(0, Y.shape[0]):
+            error_maps[data_format][y, x] = np.mean(temp_test[data_format][(y_test['X'] == X[y,x]) & (y_test['Y'] == Y[y,x])].values)
+
+for data_format in data_formats:
+    y_test.insert(2, data_format, distances[data_format][k_list[data_format]])
+    
+    fig, ax = plt.subplots(figsize=(6, 3.375))
+    fig.tight_layout()
+
+    ax.set_aspect('equal', 'box')
+    ax.set_xlabel('Distance X [m]')
+    ax.set_ylabel('Distance Y [m]')
+    ax.set_xticks(np.arange(0, 17, 1))
+    ax.set_yticks(np.arange(0, 11, 1))
+    ax.set_xlim([0, 16.71])
+    ax.set_ylim([0, 10.76])
+
+    # Limits selected from 3 heatmaps included in the paper
+    heatmap = ax.pcolormesh(X, Y, error_maps[data_format], cmap='jet', 
+                            vmin=np.min([np.nanmin(error_maps['measured']),
+                                         np.nanmin(error_maps['lin&gaus_50p_1m']),
+                                         np.nanmin(error_maps['lin&gaus_1p_1m'])]),
+                            vmax=np.max([np.nanmax(error_maps['measured']),
+                                         np.nanmax(error_maps['lin&gaus_50p_1m']),
+                                         np.nanmax(error_maps['lin&gaus_1p_1m'])]))
+    cbar = fig.colorbar(heatmap)
+    cbar.ax.set_ylabel(PLOT_MEAN_ERROR_LABEL_M)
+
+    fig.savefig(os.path.join(RESULTS_LOCATION, 'error_heatmap_{}.eps'.format(data_format)))
+    fig.savefig(os.path.join(RESULTS_LOCATION, 'error_heatmap_{}.svg'.format(data_format)))
+
+plt.show()
+
 fig1.savefig(os.path.join(RESULTS_LOCATION, 'kNN_histograms.svg'))
 fig2.savefig(os.path.join(RESULTS_LOCATION, 'kNN_Error_dependency_on_K.svg'))
 fig3.savefig(os.path.join(RESULTS_LOCATION, 'kNN_times.svg'))
