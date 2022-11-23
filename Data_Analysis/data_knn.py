@@ -303,7 +303,7 @@ hist_titles = {'measured': 'Measured data\n(50P/RP, 1m grid)',
 marker_1m = 'o'
 marker_05m = '^'
 
-line_style = {'measured': ('#1f77b4', 'solid', 2, 'Mesured REM (50P/RP, 1m grid)', marker_1m),
+line_style = {'measured': ('#1f77b4', 'solid', 2, 'Measured REM (50P/RP, 1m grid)', marker_1m),
               'interpolated': ('#ff7f0e', 'solid', 1, 'REM with LID (50P/RP, 1m grid)', marker_1m),
               'gaus_50p_1m': ('#2ca02c', 'solid', 1, 'REM by GPR trained on MD  (50P/RP, 1m grid)', marker_1m),
               'gaus_50p_05m': ('#2ca02c', 'dashed', 1, 'REM by GPR trained on MD  (50P/RP, 0.5m grid)', marker_05m),
